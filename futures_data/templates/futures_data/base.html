@@ -1,0 +1,101 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="{% static 'favicon.ico' %}">
+    <title>期货行情</title>
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'futures_data/css/bootstrap.min.css' %}" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="{% static 'futures_data/css/dashboard.css' %}" rel="stylesheet">
+    {% block extra_js %}
+    {% endblock %}
+  </head>
+
+  <body>
+    <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+      <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="/futures">期货行情</a>
+      <input class="form-control form-control-dark w-100" type="text" placeholder="Search(not implemented)" aria-label="Search">
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+          <div class="sidebar-sticky">
+            <ul class="nav flex-column">
+              <li class="nav-item">
+                <a class="nav-link active" href="/futures/overview">
+                  <span data-feather="home"></span>
+                  数据概览
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/futures/SHFE">
+                  <span data-feather="file"></span>
+                  上期所（SHFE）
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/futures/DCE">
+                  <span data-feather="shopping-cart"></span>
+                  大商所（DCE）
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/futures/CZCE">
+                  <span data-feather="users"></span>
+                  郑商所（CZCE）
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/futures/CFFEX">
+                  <span data-feather="bar-chart-2"></span>
+                  中金所（CFFEX）
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/futures/INE">
+                  <span data-feather="layers"></span>
+                  上期能源（INE）
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">
+                  <span data-feather="layers"></span>
+                  主力合约
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">
+                  <span data-feather="layers"></span>
+                  自定义
+                </a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+          {% block content %}
+          {% endblock %}
+        </main>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="{% static 'futures_data/js/jquery-slim.min.js' %}"></script>
+    <script src="{% static 'futures_data/js/popper.min.js' %}"></script>
+    <script src="{% static 'futures_data/js/bootstrap.min.js' %}"></script>
+    <!-- Icons -->
+    <script src="{% static 'futures_data/js/feather.min.js' %}"></script>
+    <script>
+      feather.replace()
+    </script>
+  </body>
+</html>
