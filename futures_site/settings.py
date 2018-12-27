@@ -16,7 +16,7 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # data directory
-DATA_DIR = os.path.join(BASE_DIR, 'data')
+DATA_DIR = os.path.join(BASE_DIR, 'data.bk')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/

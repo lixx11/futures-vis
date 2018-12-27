@@ -1,0 +1,180 @@
+{% extends 'futures_data/base.html' %}
+
+{% block head_js %}
+    <!-- pyecharts js -->
+    {% for jsfile_name in script_list %}
+        <script src="{{ host }}/{{ jsfile_name }}.js"></script>
+    {% endfor %}
+{% endblock %}
+
+{% block content %}
+          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1>{{ exchange_ch }}-{{ exchange }}</h1>
+          </div>
+          <h2>{{ exchange_ch }}数据概览</h2>
+          {{ chart|safe }}
+          <h2>{{ exchange_ch }}合约信息</h2>
+            <div id="app">
+              <b-row>
+                <b-col md="4" class="my-1">
+                    <b-input-group prepend="过滤条件">
+                      <b-form-input v-model="filter" placeholder="Type to Search"/></b-form-input>
+                      <b-input-group-append>
+                        <b-btn :disabled="!filter" @click="filter = ''">Clear</b-btn>
+                      </b-input-group-append>
+                    </b-input-group> 
+                </b-col>
+                <b-col md="4" class="my-1">
+                    <b-input-group prepend="排序">
+                      <b-form-select v-model="sortBy" :options="sortOptions">
+                        <option slot="合约符号" :value="null">-- none --</option>
+                      </b-form-select>
+                      <b-form-select :disabled="!sortBy" v-model="sortDesc" slot="append">
+                        <option :value="false">Asc</option>
+                        <option :value="true">Desc</option>
+                      </b-form-select>
+                  </b-form-group>
+                </b-col>
+                <b-col md="4" class="my-1">
+                  <b-input-group prepend="每页显示" append="项">
+                    <b-form-select :options="pageOptions" v-model="perPage" />
+                  </b-input-group>
+                </b-col>
+              </b-row>
+              <b-table  show-empty
+                      stacked="md"
+                      :items="items"
+                      :fields="fields"
+                      :current-page="currentPage"
+                      :per-page="perPage"
+                      :filter="filter"
+                      :sort-by.sync="sortBy"
+                      :sort-desc.sync="sortDesc"
+                      :sort-direction="sortDirection"
+                      @filtered="onFiltered"
+                >
+                <template slot="amount" slot-scope="data">
+                  || format_number(Math.round(data.value)) ||
+                </template>
+                <template slot="vol" slot-scope="data">
+                  || format_number(Math.round(data.value)) ||
+                </template>
+              </b-table>
+              <b-row>
+                <b-col md="6" class="my-1">
+                  <b-pagination :total-rows="totalRows" :per-page="perPage" v-model="currentPage" class="my-0"></b-pagination>
+                </b-col>
+                <b-col md="6" class="my-1">
+                  <p>共|| totalRows ||项</p>
+                </b-col>
+              </b-row>
+            </div>
+<script>
+    var app = new Vue({
+      el: '#app',
+      delimiters: ['||', '||'],
+      data: {
+        sortBy: null,
+        items: [], 
+        currentPage: 1,
+        perPage: 10,
+        pageOptions: [10, 20, 50, 100],
+        totalRows: 0,
+        sortBy: null,
+        sortDesc: false,
+        sortDirection: 'asc',
+        filter: null,
+        fields: [
+          {
+            key: 'symbol',
+            sortable: true,
+            label: '合约符号'
+          },
+          {
+            key: 'name',
+            sortable: true,
+            label: '合约名称'
+          },
+          {
+            key: 'code',
+            sortable: true,
+            label: '合约类型'
+          },
+          {
+            key: 'list_date',
+            sortable: true,
+            label: '上市日期'
+          },
+          {
+            key: 'delist_date',
+            sortable: true,
+            label: '退市日期'
+          },
+          {
+            key: 'life_time',
+            sortable: true,
+            label: '存活时间'
+          },
+          {
+            key: 'alive',
+            sortable: true,
+            label: '交易状态'
+          },
+          {
+            key: 'vol',
+            sortable: true,
+            label: '交易量/手'
+          },
+          {
+            key: 'amount',
+            sortable: true,
+            label: '交易额/万元'
+          },
+          {
+            key: 'high',
+            sortable: true,
+            label: '最高价'
+          },
+          {
+            key: 'low',
+            sortable: true,
+            label: '最低价'
+          },
+          {
+            key: 'max_fluc',
+            sortable: true,
+            label: '变动幅度/%'
+          },
+        ],
+      },
+      created: function() {
+        this.init();
+      },
+      computed: {
+        sortOptions() {
+          return this.fields
+            .filter(f => f.sortable)
+            .map(f => { return { text: f.label, value: f.key } })
+        }
+      },
+      methods: {
+        init: function() {
+          this.loadData();
+        },
+        loadData: async function() {
+          res = await axios.get('/futures/instruments_data/{{ exchange }}/')
+          data = res.data
+          this.items = res.data,
+          this.totalRows = this.items.length
+        },
+        onFiltered: function (filteredItems) {
+          this.totalRows = filteredItems.length
+          this.currentPage = 1
+        },
+        format_number: function (x) {
+          return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        },
+      }
+    })
+</script>
+{% endblock %}

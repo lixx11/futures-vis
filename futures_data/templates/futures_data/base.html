@@ -8,11 +8,14 @@
     <meta name="author" content="">
     <link rel="icon" href="{% static 'favicon.ico' %}">
     <title>期货行情</title>
-    <!-- Bootstrap core CSS -->
     <link href="{% static 'futures_data/css/bootstrap.min.css' %}" rel="stylesheet">
-    <!-- Custom styles for this template -->
     <link href="{% static 'futures_data/css/dashboard.css' %}" rel="stylesheet">
-    {% block extra_js %}
+    <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="//unpkg.com/babel-polyfill@latest/dist/polyfill.min.js"></script>
+    <script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    {% block head_js %}
     {% endblock %}
   </head>
 
@@ -24,7 +27,7 @@
 
     <div class="container-fluid">
       <div class="row">
-        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+        <nav class="col-md-2 col-lg-2 col-sm-none d-none d-md-block bg-light sidebar">
           <div class="sidebar-sticky">
             <ul class="nav flex-column">
               <li class="nav-item">
@@ -34,31 +37,31 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="/futures/SHFE">
+                <a class="nav-link" href="/futures/exchange/SHFE/">
                   <span data-feather="file"></span>
                   上期所（SHFE）
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="/futures/DCE">
+                <a class="nav-link" href="/futures/exchange/DCE">
                   <span data-feather="shopping-cart"></span>
                   大商所（DCE）
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="/futures/CZCE">
+                <a class="nav-link" href="/futures/exchange/CZCE">
                   <span data-feather="users"></span>
                   郑商所（CZCE）
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="/futures/CFFEX">
+                <a class="nav-link" href="/futures/exchange/CFFEX">
                   <span data-feather="bar-chart-2"></span>
                   中金所（CFFEX）
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="/futures/INE">
+                <a class="nav-link" href="/futures/exchange/INE">
                   <span data-feather="layers"></span>
                   上期能源（INE）
                 </a>
@@ -79,7 +82,7 @@
           </div>
         </nav>
 
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+        <main role="main" class="col-md-10 col-sm-10 ml-auto col-lg-10 px-3">
           {% block content %}
           {% endblock %}
         </main>
@@ -91,7 +94,7 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="{% static 'futures_data/js/jquery-slim.min.js' %}"></script>
     <script src="{% static 'futures_data/js/popper.min.js' %}"></script>
-    <script src="{% static 'futures_data/js/bootstrap.min.js' %}"></script>
+    {% comment %} <script src="{% static 'futures_data/js/bootstrap.min.js' %}"></script> {% endcomment %}
     <!-- Icons -->
     <script src="{% static 'futures_data/js/feather.min.js' %}"></script>
     <script>
