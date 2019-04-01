@@ -1,0 +1,68 @@
+{% extends 'futures_data/base.html' %}
+
+{% block content %}
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1>基差</h1>
+    </div>
+    <h2>历史基差曲线</h2>
+    <div id='chart' style="width: 100%;height:400px;"></div>
+    <h2>实时基差数据</h2>
+    <div id="app">
+        <b-table 
+            :items="items"
+            :fields="fields"
+        >
+        </b-table>
+    </div>
+
+<script>
+    var app = new Vue({
+        el: '#app',
+        delimiters: ['||', '||'],
+        data: {
+            socket: null,
+            items: [], 
+            fields: [
+            {
+                key: 'instrument',
+                sortable: true,
+                label: '合约'
+            },
+            {
+                key: 'price',
+                sortable: true,
+                label: '价格'
+            },
+            ],
+        },
+        created: function() {
+            this.initWebSocket();
+        },
+        destroyed: function() {
+            this.socket.close();
+        },
+        methods: {
+            initWebSocket: function() {
+                const wsurl = 'ws://localhost:5678';
+                this.socket = new WebSocket(wsurl);
+                this.socket.onopen = this.socketOnOpen;
+                this.socket.onclose = this.socketOnClose;
+                this.socket.onerror = this.socketOnError;
+                this.socket.onmessage = this.socketOnMessage;
+            },
+            socketOnOpen: function() {
+                console.log('socket connected');
+            },
+            socketOnClose: function() {
+                console.log('socket disconnected');
+            },
+            socketOnError: function() {
+                this.initWebSocket();
+            },
+            socketOnMessage: function(e) {
+                this.items = JSON.parse(e.data);
+            },
+        }
+    })
+</script>
+{% endblock %}

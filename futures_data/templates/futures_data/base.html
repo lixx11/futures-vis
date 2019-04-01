@@ -10,11 +10,12 @@
     <title>期货行情</title>
     <link href="{% static 'futures_data/css/bootstrap.min.css' %}" rel="stylesheet">
     <link href="{% static 'futures_data/css/dashboard.css' %}" rel="stylesheet">
-    <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.css"/>
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script src="//unpkg.com/babel-polyfill@latest/dist/polyfill.min.js"></script>
-    <script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.js"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="{% static 'futures_data/css/bootstrap-vue.css' %}"/>
+    <script src="{% static 'futures_data/js/echarts.min.js' %}"></script>
+    <script src="{% static 'futures_data/js/vue.js' %}"></script>
+    <script src="{% static 'futures_data/js/polyfill.min.js' %}"></script>
+    <script src="{% static 'futures_data/js/bootstrap-vue.js' %}"></script>
+    <script src="{% static 'futures_data/js/axios.min.js' %}"></script>
     {% block head_js %}
     {% endblock %}
   </head>
@@ -31,49 +32,55 @@
           <div class="sidebar-sticky">
             <ul class="nav flex-column">
               <li class="nav-item">
-                <a class="nav-link active" href="/futures/overview">
+                <a class="nav-link {% if tag == 'overview' %} active {% endif %}" href="/futures/overview">
                   <span data-feather="home"></span>
                   数据概览
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="/futures/exchange/SHFE/">
+                <a class="nav-link {% if tag == 'SHFE' %} active {% endif %}" href="/futures/exchange/SHFE/">
                   <span data-feather="file"></span>
                   上期所（SHFE）
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="/futures/exchange/DCE">
+                <a class="nav-link {% if tag == 'DCE' %} active {% endif %}" href="/futures/exchange/DCE">
                   <span data-feather="shopping-cart"></span>
                   大商所（DCE）
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="/futures/exchange/CZCE">
+                <a class="nav-link {% if tag == 'CZCE' %} active {% endif %}" href="/futures/exchange/CZCE">
                   <span data-feather="users"></span>
                   郑商所（CZCE）
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="/futures/exchange/CFFEX">
+                <a class="nav-link {% if tag == 'CFFEX' %} active {% endif %}" href="/futures/exchange/CFFEX">
                   <span data-feather="bar-chart-2"></span>
                   中金所（CFFEX）
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="/futures/exchange/INE">
+                <a class="nav-link {% if tag == 'INE' %} active {% endif %}" href="/futures/exchange/INE">
                   <span data-feather="layers"></span>
                   上期能源（INE）
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link {% if tag == 'major_instruments' %} active {% endif %}" href="/futures/major_instruments">
                   <span data-feather="layers"></span>
                   主力合约
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link {% if tag == 'basis' %} active {% endif %}" href="/futures/basis">
+                  <span data-feather="layers"></span>
+                  基差
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link {% if tag == 'custom' %} active {% endif %}" href="#">
                   <span data-feather="layers"></span>
                   自定义
                 </a>
@@ -97,6 +104,7 @@
     {% comment %} <script src="{% static 'futures_data/js/bootstrap.min.js' %}"></script> {% endcomment %}
     <!-- Icons -->
     <script src="{% static 'futures_data/js/feather.min.js' %}"></script>
+    <script src="{% static 'futures_data/js/papaparse.min.js' %}"></script>
     <script>
       feather.replace()
     </script>
